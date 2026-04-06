@@ -1,0 +1,1392 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-MarketKu — Platform Marketplace Indonesia</title>
+    <link rel="icon" href="assets/icon.png" type="image/png" />
+    <meta
+      name="description"
+      content="MarketKu adalah platform marketplace online Indonesia yang dibuat oleh Candri Panjaitan untuk membantu masyarakat menjual produk secara online dengan mudah."
+    />
+    <meta name="author" content="Candri Panjaitan" />
+    <meta property="og:title" content="E-MarketKu — Marketplace Indonesia" />
+    <meta
+      property="og:description"
+      content="Jual & beli produk dengan mudah di satu platform digital modern."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f5f2eb;
+        --bg2: #ece8df;
+        --surface: #ffffff;
+        --dark: #1a1a14;
+        --dark2: #2d2d22;
+        --accent: #e8611a;
+        --accent2: #f0a500;
+        --text: #1a1a14;
+        --muted: #7a7a6a;
+        --border: rgba(26, 26, 20, 0.1);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Plus Jakarta Sans", sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* ── GRAIN TEXTURE ── */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9000;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 0 2.5rem;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(245, 242, 235, 0.88);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: 1.25rem;
+        color: var(--dark);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .nav-brand .dot {
+        color: var(--accent);
+      }
+      .nav-badge {
+        padding: 0.25rem 0.75rem;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 100px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+      .nav-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-link:hover {
+        color: var(--accent);
+      }
+      .nav-cta {
+        padding: 0.55rem 1.3rem;
+        background: var(--dark);
+        color: #fff;
+        border-radius: 100px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      /* Hamburger mobile */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--dark);
+        border-radius: 2px;
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(245, 242, 235, 0.98);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        z-index: 90;
+        padding: 1rem 2rem 1.5rem;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      .mobile-menu.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .mobile-menu a {
+        display: block;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid var(--border);
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: color 0.2s;
+      }
+      .mobile-menu a:last-child {
+        border-bottom: none;
+      }
+      .mobile-menu a:hover {
+        color: var(--accent);
+      }
+
+      /* ── HERO ── */
+      #hero {
+        min-height: 100svh;
+        padding: 64px 2.5rem 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg-shape {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 97, 26, 0.08) 0%,
+          transparent 65%
+        );
+        top: 50%;
+        right: -10%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+      .hero-left {
+        position: relative;
+        z-index: 2;
+        padding: 5rem 0 4rem;
+      }
+      .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem 0.9rem;
+        background: rgba(232, 97, 26, 0.1);
+        border: 1px solid rgba(232, 97, 26, 0.25);
+        border-radius: 100px;
+        margin-bottom: 2rem;
+        animation: fadeUp 0.7s ease both;
+      }
+      .hero-tag span {
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .hero-tag::before {
+        content: "🛒";
+        font-size: 0.85rem;
+      }
+
+      .hero-title {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: clamp(2.8rem, 6vw, 5.2rem);
+        line-height: 1;
+        letter-spacing: -0.03em;
+        animation: fadeUp 0.7s 0.1s ease both;
+        margin-bottom: 1.5rem;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      .hero-title .outline {
+        color: transparent;
+        -webkit-text-stroke: 2px var(--dark);
+      }
+
+      .hero-desc {
+        font-size: clamp(0.9rem, 1.5vw, 1rem);
+        color: var(--muted);
+        line-height: 1.8;
+        max-width: 460px;
+        animation: fadeUp 0.7s 0.2s ease both;
+        margin-bottom: 2.5rem;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+        animation: fadeUp 0.7s 0.3s ease both;
+      }
+      .btn-main {
+        padding: 0.9rem 2rem;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.88rem;
+        letter-spacing: 0.02em;
+        border-radius: 10px;
+        text-decoration: none;
+        display: inline-block;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        box-shadow: 0 4px 20px rgba(232, 97, 26, 0.3);
+      }
+      .btn-main:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(232, 97, 26, 0.4);
+      }
+      .btn-outline {
+        padding: 0.9rem 2rem;
+        border: 1.5px solid var(--border);
+        color: var(--dark);
+        font-weight: 600;
+        font-size: 0.88rem;
+        border-radius: 10px;
+        text-decoration: none;
+        display: inline-block;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* Hero right — mockup card */
+      .hero-right {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 4rem 0;
+      }
+      .hero-photo-wrap {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 24px;
+        object-fit: cover;
+        border: 3px solid var(--surface);
+        box-shadow:
+          0 8px 32px rgba(232, 97, 26, 0.25),
+          0 2px 8px rgba(26, 26, 20, 0.12);
+        animation: floatPhoto 4s ease-in-out infinite;
+      }
+      @keyframes floatPhoto {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .hero-photo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: 0.8rem;
+        padding: 0.3rem 0.9rem;
+        background: var(--surface);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        border-radius: 100px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #16a34a;
+        box-shadow: 0 2px 8px rgba(26, 26, 20, 0.08);
+      }
+      .hero-photo-badge-dot {
+        width: 6px;
+        height: 6px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: blink 1.5s ease infinite;
+      }
+      .hero-photo-name {
+        margin-top: 0.4rem;
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--dark);
+        letter-spacing: -0.01em;
+      }
+      .mockup-card {
+        background: var(--surface);
+        border-radius: 24px;
+        box-shadow:
+          0 20px 60px rgba(26, 26, 20, 0.12),
+          0 4px 16px rgba(26, 26, 20, 0.06);
+        padding: 2rem;
+        width: 100%;
+        max-width: 360px;
+        animation: floatCard 5s ease-in-out infinite;
+        border: 1px solid rgba(26, 26, 20, 0.06);
+      }
+      @keyframes floatCard {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .mockup-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+      .mockup-logo {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: 1.1rem;
+        color: var(--dark);
+      }
+      .mockup-logo span {
+        color: var(--accent);
+      }
+      .mockup-status {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.65rem;
+        color: #22c55e;
+        font-weight: 600;
+      }
+      .mockup-status::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: blink 1.5s ease infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      .mockup-products {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .mock-prod {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 0.75rem;
+        background: var(--bg);
+        border-radius: 10px;
+      }
+      .mock-prod-img {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
+      .mock-prod-img.a {
+        background: #fef3c7;
+      }
+      .mock-prod-img.b {
+        background: #dbeafe;
+      }
+      .mock-prod-img.c {
+        background: #dcfce7;
+      }
+      .mock-prod-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .mock-prod-name {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .mock-prod-seller {
+        font-size: 0.62rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .mock-prod-price {
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: var(--accent);
+        flex-shrink: 0;
+      }
+
+      .mockup-footer {
+        margin-top: 1.2rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .mock-stat {
+        text-align: center;
+      }
+      .mock-stat-num {
+        font-family: "Fraunces", serif;
+        font-size: 1.3rem;
+        font-weight: 900;
+        color: var(--dark);
+        line-height: 1;
+      }
+      .mock-stat-label {
+        font-size: 0.58rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-top: 2px;
+      }
+
+      /* ── DIVIDER ── */
+      .divider {
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* ── SHARED ── */
+      section {
+        padding: 5rem 2.5rem;
+      }
+      .section-tag {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.8rem;
+      }
+      .section-title {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin-bottom: 1rem;
+      }
+      .section-title em {
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      /* ── FEATURES ── */
+      #features {
+        background: var(--dark);
+        color: #f5f2eb;
+      }
+      #features .section-tag {
+        color: var(--accent2);
+      }
+      #features .section-title {
+        color: #f5f2eb;
+      }
+      #features .section-title em {
+        color: var(--accent);
+      }
+
+      .features-intro {
+        color: rgba(245, 242, 235, 0.55);
+        font-size: 0.9rem;
+        line-height: 1.8;
+        max-width: 520px;
+        margin-bottom: 3.5rem;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.2rem;
+      }
+      .feat-card {
+        padding: 1.8rem;
+        background: rgba(245, 242, 235, 0.04);
+        border: 1px solid rgba(245, 242, 235, 0.08);
+        border-radius: 16px;
+        transition:
+          background 0.3s,
+          transform 0.3s,
+          border-color 0.3s;
+      }
+      .feat-card:hover {
+        background: rgba(245, 242, 235, 0.07);
+        border-color: rgba(232, 97, 26, 0.3);
+        transform: translateY(-4px);
+      }
+      .feat-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+      .feat-title {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #f5f2eb;
+      }
+      .feat-desc {
+        font-size: 0.8rem;
+        color: rgba(245, 242, 235, 0.5);
+        line-height: 1.7;
+      }
+
+      /* ── CREATOR ── */
+      #creator {
+        background: var(--bg2);
+      }
+      .creator-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .creator-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 8px 30px rgba(232, 97, 26, 0.3);
+      }
+      .creator-name {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: 2rem;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.3rem;
+      }
+      .creator-school {
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-bottom: 1.5rem;
+      }
+      .creator-bio {
+        color: var(--muted);
+        font-size: 0.88rem;
+        line-height: 1.85;
+        margin-bottom: 2rem;
+      }
+      .creator-bio strong {
+        color: var(--text);
+      }
+      .creator-links {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .creator-link {
+        padding: 0.5rem 1.1rem;
+        border: 1.5px solid var(--border);
+        border-radius: 100px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.73rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .creator-link:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* Creator right — tech stack visual */
+      .creator-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .tech-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        transition:
+          transform 0.2s,
+          border-color 0.2s;
+      }
+      .tech-row:hover {
+        transform: translateX(6px);
+        border-color: rgba(232, 97, 26, 0.3);
+      }
+      .tech-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+      .tech-info {
+        flex: 1;
+      }
+      .tech-name {
+        font-weight: 700;
+        font-size: 0.88rem;
+      }
+      .tech-role {
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .tech-bar-wrap {
+        width: 80px;
+        height: 4px;
+        background: var(--bg2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .tech-bar {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      /* ── STATUS ── */
+      #status {
+        background: var(--surface);
+      }
+      .status-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .status-badge-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .status-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.1rem 1.3rem;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+      }
+      .status-item.active {
+        background: rgba(34, 197, 94, 0.05);
+        border-color: rgba(34, 197, 94, 0.2);
+      }
+      .status-item.dev {
+        background: rgba(232, 97, 26, 0.05);
+        border-color: rgba(232, 97, 26, 0.2);
+      }
+      .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .status-dot.green {
+        background: #22c55e;
+        animation: blink 1.5s ease infinite;
+      }
+      .status-dot.orange {
+        background: var(--accent);
+        animation: blink 2s ease infinite;
+      }
+      .status-text-title {
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+      .status-text-sub {
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      .status-url-card {
+        background: var(--dark);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+      }
+      .status-url-label {
+        font-size: 0.65rem;
+        color: rgba(245, 242, 235, 0.4);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+      }
+      .status-url-link {
+        display: block;
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        color: var(--accent2);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.2rem;
+        word-break: break-all;
+        transition: color 0.2s;
+      }
+      .status-url-link:hover {
+        color: var(--accent);
+      }
+      .status-visit-btn {
+        display: inline-block;
+        padding: 0.8rem 1.8rem;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.82rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .status-visit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(232, 97, 26, 0.4);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--dark);
+        padding: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        border-top: 1px solid rgba(245, 242, 235, 0.08);
+      }
+      .footer-brand {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: 1.1rem;
+        color: #f5f2eb;
+      }
+      .footer-brand span {
+        color: var(--accent);
+      }
+      .footer-copy {
+        color: rgba(245, 242, 235, 0.35);
+        font-size: 0.7rem;
+      }
+      .footer-link {
+        color: rgba(245, 242, 235, 0.4);
+        text-decoration: none;
+        font-size: 0.72rem;
+        transition: color 0.2s;
+      }
+      .footer-link:hover {
+        color: var(--accent);
+      }
+
+      /* ── REVEAL ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 900px) {
+        #hero {
+          grid-template-columns: 1fr;
+        }
+        .hero-right {
+          display: none;
+        }
+        .creator-wrap {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .status-wrap {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+      @media (max-width: 640px) {
+        nav {
+          padding: 0 1.2rem;
+        }
+        .nav-right {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .mobile-menu {
+          display: flex;
+        }
+        #hero {
+          padding: 64px 1.2rem 0;
+        }
+        section {
+          padding: 3.5rem 1.2rem;
+        }
+        .hero-left {
+          padding: 3rem 0 3rem;
+        }
+        .btn-main,
+        .btn-outline {
+          width: 100%;
+          text-align: center;
+          padding: 1rem;
+        }
+        .hero-actions {
+          flex-direction: column;
+        }
+        footer {
+          flex-direction: column;
+          text-align: center;
+          padding: 2rem 1.2rem;
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(25px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="https://e-marketku.web.id" class="nav-brand"
+        >E-Market<span class="dot">Ku</span></a
+      >
+      <div class="nav-right">
+        <a href="#features" class="nav-link">Fitur</a>
+        <a href="#creator" class="nav-link">Pencipta</a>
+        <a href="#status" class="nav-link">Status</a>
+        <a href="https://e-marketku.web.id" class="nav-cta" target="_blank"
+          >Kunjungi →</a
+        >
+      </div>
+      <button class="hamburger" id="ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#features" onclick="closeMM()">Fitur</a>
+      <a href="#creator" onclick="closeMM()">Pencipta</a>
+      <a href="#status" onclick="closeMM()">Status</a>
+      <a href="https://e-marketku.web.id" target="_blank">Kunjungi Website →</a>
+    </div>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-bg-shape"></div>
+      <div class="hero-left">
+        <div class="hero-tag"><span>Marketplace Indonesia</span></div>
+        <h1 class="hero-title">
+          Platform<br />
+          <em>Jual Beli</em><br />
+          <span class="outline">Digital</span>
+        </h1>
+        <p class="hero-desc">
+          E-MarketKu adalah marketplace online Indonesia yang memungkinkan siapa
+          saja untuk menjual dan membeli produk dalam satu platform digital yang
+          modern, mudah, dan terpercaya.
+        </p>
+        <div class="hero-actions">
+          <a href="https://e-marketku.web.id" target="_blank" class="btn-main"
+            >Mulai Jualan →</a
+          >
+          <a href="#features" class="btn-outline">Lihat Fitur</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <!-- Foto Profil -->
+        <div class="hero-photo-wrap">
+          <img src="assets/pp.png" alt="Candri Panjaitan" class="hero-photo" />
+          <div class="hero-photo-badge">
+            <span class="hero-photo-badge-dot"></span>
+            Available for projects
+          </div>
+          <div class="hero-photo-name">Candri Panjaitan</div>
+        </div>
+        <div class="mockup-card">
+          <div class="mockup-header">
+            <div class="mockup-logo">E-Market<span>Ku</span></div>
+            <div class="mockup-status">Live</div>
+          </div>
+          <div class="mockup-products">
+            <div class="mock-prod">
+              <div class="mock-prod-img a">👟</div>
+              <div class="mock-prod-info">
+                <div class="mock-prod-name">Sepatu Sneakers</div>
+                <div class="mock-prod-seller">by Toko Andi</div>
+              </div>
+              <div class="mock-prod-price">Rp 249K</div>
+            </div>
+            <div class="mock-prod">
+              <div class="mock-prod-img b">📱</div>
+              <div class="mock-prod-info">
+                <div class="mock-prod-name">Casing iPhone 15</div>
+                <div class="mock-prod-seller">by MobileMart</div>
+              </div>
+              <div class="mock-prod-price">Rp 85K</div>
+            </div>
+            <div class="mock-prod">
+              <div class="mock-prod-img c">🌿</div>
+              <div class="mock-prod-info">
+                <div class="mock-prod-name">Tanaman Hias</div>
+                <div class="mock-prod-seller">by GreenShop</div>
+              </div>
+              <div class="mock-prod-price">Rp 125K</div>
+            </div>
+          </div>
+          <div class="mockup-footer">
+            <div class="mock-stat">
+              <div class="mock-stat-num">200+</div>
+              <div class="mock-stat-label">Produk</div>
+            </div>
+            <div class="mock-stat">
+              <div class="mock-stat-num">50+</div>
+              <div class="mock-stat-label">Seller</div>
+            </div>
+            <div class="mock-stat">
+              <div class="mock-stat-num">🇮🇩</div>
+              <div class="mock-stat-label">Indonesia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <div class="section-tag reveal">// Fitur Utama</div>
+      <h2 class="section-title reveal">
+        Apa yang Ada di<br /><em>E-MarketKu?</em>
+      </h2>
+      <p class="features-intro reveal">
+        Dibangun dengan teknologi modern untuk pengalaman jual beli yang mulus —
+        dari daftar hingga transaksi.
+      </p>
+      <div class="features-grid">
+        <div class="feat-card reveal">
+          <div class="feat-icon">🏪</div>
+          <div class="feat-title">Marketplace Multi Seller</div>
+          <div class="feat-desc">
+            Banyak penjual dalam satu platform. Pembeli bisa eksplorasi produk
+            dari berbagai toko sekaligus.
+          </div>
+        </div>
+        <div class="feat-card reveal" style="transition-delay: 0.05s">
+          <div class="feat-icon">📊</div>
+          <div class="feat-title">Dashboard Seller</div>
+          <div class="feat-desc">
+            Kelola produk, pantau pesanan, dan lacak penjualan dari dashboard
+            yang intuitif dan informatif.
+          </div>
+        </div>
+        <div class="feat-card reveal" style="transition-delay: 0.1s">
+          <div class="feat-icon">🛡️</div>
+          <div class="feat-title">Panel Admin</div>
+          <div class="feat-desc">
+            Manajemen platform terpusat — kontrol penuh atas pengguna, produk,
+            dan aktivitas transaksi.
+          </div>
+        </div>
+        <div class="feat-card reveal" style="transition-delay: 0.15s">
+          <div class="feat-icon">💬</div>
+          <div class="feat-title">Chat Realtime</div>
+          <div class="feat-desc">
+            Pembeli dan penjual bisa berkomunikasi langsung di dalam platform
+            tanpa keluar aplikasi.
+          </div>
+        </div>
+        <div class="feat-card reveal" style="transition-delay: 0.2s">
+          <div class="feat-icon">🔔</div>
+          <div class="feat-title">Notifikasi Real-Time</div>
+          <div class="feat-desc">
+            Pemberitahuan instan untuk setiap pesanan masuk, pesan baru, dan
+            update status transaksi.
+          </div>
+        </div>
+        <div class="feat-card reveal" style="transition-delay: 0.25s">
+          <div class="feat-icon">🌐</div>
+          <div class="feat-title">Bilingual ID & EN</div>
+          <div class="feat-desc">
+            Dukungan Bahasa Indonesia dan Inggris agar platform bisa digunakan
+            oleh lebih banyak pengguna.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CREATOR -->
+    <section id="creator" style="background: var(--bg2)">
+      <div class="creator-wrap">
+        <div class="reveal">
+          <div class="creator-avatar">
+            <img
+              src="assets/pp.png"
+              alt="Candri Panjaitan"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 18px;
+              "
+            />
+          </div>
+          <div class="creator-name">Candri Panjaitan</div>
+          <div class="creator-school">
+            📍 SMAN 2 Siborongborong · Sumatera Utara
+          </div>
+          <p class="creator-bio">
+            E-MarketKu dibangun oleh <strong>Candri Panjaitan</strong>, seorang
+            pelajar yang passionate di dunia web development. Dengan
+            memanfaatkan kekuatan
+            <strong>kecerdasan buatan (AI)</strong> sebagai co-pilot, Candri
+            berhasil membangun platform marketplace yang fungsional, modern, dan
+            terus berkembang.
+          </p>
+          <div class="creator-links">
+            <a
+              href="https://github.com/candri-panjaitan"
+              target="_blank"
+              class="creator-link"
+            >
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"
+                />
+              </svg>
+              GitHub
+            </a>
+            <a
+              href="https://e-marketku.web.id"
+              target="_blank"
+              class="creator-link"
+              >🌐 e-marketku.web.id</a
+            >
+            <a
+              href="https://csliabrand.web.id"
+              target="_blank"
+              class="creator-link"
+              >🌸 CSlia Parfum</a
+            >
+          </div>
+        </div>
+        <div class="creator-right reveal" style="transition-delay: 0.15s">
+          <div
+            style="
+              font-size: 0.68rem;
+              font-weight: 700;
+              letter-spacing: 0.1em;
+              text-transform: uppercase;
+              color: var(--muted);
+              margin-bottom: 0.5rem;
+            "
+          >
+            Tech Stack
+          </div>
+          <div class="tech-row">
+            <div class="tech-icon">🌐</div>
+            <div class="tech-info">
+              <div class="tech-name">HTML & CSS</div>
+              <div class="tech-role">Struktur & Tampilan</div>
+            </div>
+            <div class="tech-bar-wrap">
+              <div class="tech-bar" style="width: 90%"></div>
+            </div>
+          </div>
+          <div class="tech-row">
+            <div class="tech-icon">⚡</div>
+            <div class="tech-info">
+              <div class="tech-name">JavaScript</div>
+              <div class="tech-role">Interaksi & Logic</div>
+            </div>
+            <div class="tech-bar-wrap">
+              <div class="tech-bar" style="width: 80%"></div>
+            </div>
+          </div>
+          <div class="tech-row">
+            <div class="tech-icon">🐘</div>
+            <div class="tech-info">
+              <div class="tech-name">PHP</div>
+              <div class="tech-role">Backend & Server</div>
+            </div>
+            <div class="tech-bar-wrap">
+              <div class="tech-bar" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="tech-row">
+            <div class="tech-icon">🗄️</div>
+            <div class="tech-info">
+              <div class="tech-name">MySQL / SQL</div>
+              <div class="tech-role">Database</div>
+            </div>
+            <div class="tech-bar-wrap">
+              <div class="tech-bar" style="width: 75%"></div>
+            </div>
+          </div>
+          <div
+            class="tech-row"
+            style="
+              border-color: rgba(232, 97, 26, 0.3);
+              background: rgba(232, 97, 26, 0.04);
+            "
+          >
+            <div class="tech-icon">🤖</div>
+            <div class="tech-info">
+              <div class="tech-name">AI Tools</div>
+              <div class="tech-role">Powered by AI</div>
+            </div>
+            <div class="tech-bar-wrap">
+              <div
+                class="tech-bar"
+                style="width: 100%; background: var(--accent)"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STATUS -->
+    <section id="status">
+      <div class="status-wrap">
+        <div class="reveal">
+          <div class="section-tag">// Status Project</div>
+          <h2 class="section-title">Sedang dalam<br /><em>Pengembangan</em></h2>
+          <p
+            style="
+              color: var(--muted);
+              font-size: 0.88rem;
+              line-height: 1.8;
+              margin-bottom: 2rem;
+              max-width: 400px;
+            "
+          >
+            E-MarketKu masih dalam tahap pengembangan aktif. Fitur baru terus
+            ditambahkan dan sistem terus dioptimalkan untuk pengalaman terbaik.
+          </p>
+          <div class="status-badge-wrap">
+            <div class="status-item active">
+              <div class="status-dot green"></div>
+              <div>
+                <div class="status-text-title">Website Online</div>
+                <div class="status-text-sub">
+                  e-marketku.web.id aktif & bisa diakses
+                </div>
+              </div>
+            </div>
+            <div class="status-item dev">
+              <div class="status-dot orange"></div>
+              <div>
+                <div class="status-text-title">Pengembangan Aktif</div>
+                <div class="status-text-sub">
+                  Fitur baru sedang dalam proses
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay: 0.15s">
+          <div class="status-url-card">
+            <div class="status-url-label">Website Resmi</div>
+            <a
+              href="https://e-marketku.web.id"
+              target="_blank"
+              class="status-url-link"
+              >e-marketku.web.id</a
+            >
+            <a
+              href="https://e-marketku.web.id"
+              target="_blank"
+              class="status-visit-btn"
+              >Kunjungi Sekarang →</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-brand">E-Market<span>Ku</span></div>
+      <div class="footer-copy">
+        © 2025 · Dibuat oleh Candri Panjaitan · SMAN 2 Siborongborong
+      </div>
+      <a
+        href="https://github.com/candri-panjaitan"
+        target="_blank"
+        class="footer-link"
+        >GitHub ↗</a
+      >
+    </footer>
+
+    <script>
+      /* Hamburger */
+      const ham = document.getElementById("ham");
+      const mm = document.getElementById("mobileMenu");
+      let open = false;
+      function closeMM() {
+        open = false;
+        ham.classList.remove("open");
+        mm.classList.remove("show");
+        setTimeout(() => {
+          if (!open) mm.style.display = "none";
+        }, 300);
+      }
+      ham.addEventListener("click", () => {
+        open = !open;
+        if (open) {
+          mm.style.display = "flex";
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => mm.classList.add("show")),
+          );
+          ham.classList.add("open");
+        } else {
+          closeMM();
+        }
+      });
+
+      /* Reveal */
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      /* Smooth scroll */
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const t = document.querySelector(a.getAttribute("href"));
+          if (t) {
+            e.preventDefault();
+            t.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
